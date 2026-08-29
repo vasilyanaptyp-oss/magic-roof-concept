@@ -14,7 +14,7 @@ Serve this folder with any static HTTP server and open `index.html` through loca
 - Local-business structured data
 - Click-to-call, email and map actions
 - Contact form that prepares a local email without storing or transmitting data
-- Self-hosted font and GSAP runtime
+- Self-hosted font and lightweight CSS motion
 
 ## Important production notes
 

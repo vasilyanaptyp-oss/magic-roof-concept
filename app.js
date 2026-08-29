@@ -1,5 +1,3 @@
-document.documentElement.classList.add("js");
-
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const header = document.querySelector("[data-header]");
 const progress = document.querySelector(".scroll-progress span");
@@ -7,16 +5,23 @@ const menuButton = document.querySelector(".menu-button");
 const mobileMenu = document.querySelector(".mobile-menu");
 const menuLinks = [...mobileMenu.querySelectorAll("a")];
 let lastFocusedElement = null;
+let menuCloseTimer = null;
+
+let scrollTicking = false;
 
 const updateScrollUI = () => {
   const scrollTop = window.scrollY;
   const scrollRange = document.documentElement.scrollHeight - window.innerHeight;
   header.classList.toggle("is-scrolled", scrollTop > 18);
   progress.style.transform = `scaleX(${scrollRange > 0 ? Math.min(scrollTop / scrollRange, 1) : 0})`;
+  scrollTicking = false;
 };
 
-updateScrollUI();
-window.addEventListener("scroll", updateScrollUI, { passive: true });
+window.addEventListener("scroll", () => {
+  if (scrollTicking) return;
+  scrollTicking = true;
+  requestAnimationFrame(updateScrollUI);
+}, { passive: true });
 
 const setMenu = (open) => {
   menuButton.setAttribute("aria-expanded", String(open));
@@ -25,29 +30,18 @@ const setMenu = (open) => {
   document.body.classList.toggle("menu-open", open);
 
   if (open) {
+    window.clearTimeout(menuCloseTimer);
     lastFocusedElement = document.activeElement;
     mobileMenu.hidden = false;
-    if (window.gsap && !prefersReducedMotion.matches) {
-      gsap.set(mobileMenu, { visibility: "visible" });
-      gsap.fromTo(mobileMenu, { opacity: 0 }, { opacity: 1, duration: .28, ease: "power2.out" });
-      gsap.fromTo(menuLinks, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .4, stagger: .05, ease: "power3.out" });
-    } else {
-      mobileMenu.style.visibility = "visible";
-      mobileMenu.style.opacity = "1";
-    }
+    requestAnimationFrame(() => mobileMenu.classList.add("is-open"));
     requestAnimationFrame(() => menuLinks[0]?.focus());
   } else {
-    const finish = () => {
-      mobileMenu.style.visibility = "hidden";
-      mobileMenu.style.opacity = "0";
+    mobileMenu.classList.remove("is-open");
+    menuCloseTimer = window.setTimeout(() => {
       mobileMenu.hidden = true;
       lastFocusedElement?.focus();
-    };
-    if (window.gsap && !prefersReducedMotion.matches) {
-      gsap.to(mobileMenu, { opacity: 0, duration: .2, ease: "power1.out", onComplete: finish });
-    } else {
-      finish();
-    }
+      menuCloseTimer = null;
+    }, prefersReducedMotion.matches ? 0 : 240);
   }
 };
 
@@ -67,31 +61,6 @@ document.addEventListener("keydown", (event) => {
     event.preventDefault();
     first.focus();
   }
-});
-
-if (window.gsap && !prefersReducedMotion.matches) {
-  gsap.set([".site-header", ".hero-eyebrow span", ".hero-line > span", ".hero-intro", ".hero-actions", ".hero-facts", ".hero-media"], { visibility: "visible" });
-  const heroTimeline = gsap.timeline({ defaults: { ease: "power3.out" } });
-  heroTimeline
-    .from(".site-header", { y: -22, opacity: 0, duration: .55 })
-    .from(".hero-eyebrow span", { yPercent: 120, duration: .55 }, "-=.2")
-    .from(".hero-line > span", { yPercent: 110, duration: .8, stagger: .09 }, "-=.35")
-    .from([".hero-intro", ".hero-actions", ".hero-facts"], { y: 20, opacity: 0, duration: .55, stagger: .08 }, "-=.45")
-    .from(".hero-media", { x: 34, opacity: 0, duration: .8 }, "-=.75")
-    .from(".hero-rule span", { scaleX: 0, transformOrigin: "left center", duration: .7 }, "-=.35");
-}
-
-const revealObserver = new IntersectionObserver((entries, observer) => {
-  entries.forEach((entry) => {
-    if (!entry.isIntersecting) return;
-    entry.target.classList.add("is-visible");
-    observer.unobserve(entry.target);
-  });
-}, { threshold: .12, rootMargin: "0px 0px -8%" });
-
-document.querySelectorAll("[data-reveal]").forEach((element) => {
-  if (prefersReducedMotion.matches) element.classList.add("is-visible");
-  else revealObserver.observe(element);
 });
 
 document.querySelectorAll("[data-dialog-open]").forEach((button) => {
