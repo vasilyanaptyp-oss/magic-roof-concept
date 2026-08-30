@@ -524,8 +524,8 @@ figure, p, h1, h2, h3, dl, dd { margin: 0; }
 .field select:focus { border-color: var(--accent-dark); box-shadow: 0 2px 0 var(--accent-dark); }
 .field [aria-invalid="true"] { border-color: #a32616; }
 .field-error { min-height: 15px; color: #8d2518; font-size: 11px; }
-.checkbox { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: center; min-height: 44px; cursor: pointer; font-size: 12px; color: var(--muted); }
-.checkbox input { width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--accent-dark); }
+.checkbox { display: grid; grid-template-columns: 24px 1fr; gap: 12px; align-items: center; min-height: 44px; cursor: pointer; font-size: 12px; color: var(--muted); user-select: none; }
+.checkbox input { width: 20px; height: 20px; margin: 0; cursor: pointer; accent-color: var(--accent-dark); }
 .contact-form .button { width: 100%; margin-top: 22px; }
 .form-note { margin-top: 15px; color: var(--muted); font-size: 11px; text-align: center; }
 .form-status { min-height: 23px; margin-top: 8px; color: var(--accent-dark); font-size: 12px; font-weight: 650; text-align: center; }

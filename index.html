@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#171916">
   <meta name="description" content="MAGIC ROOF e.U. in Linz: Bauwerksabdichtung, Dachdeckerei, Spenglerei, Fenster, Türen und Sonnenschutz. Jetzt Angebot anfragen.">
-  <meta name="robots" content="index,follow">
+  <meta name="robots" content="noindex,nofollow">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; style-src 'self'; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self' mailto:">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="de_AT">
@@ -297,11 +297,11 @@
             <textarea id="message" name="message" rows="5" enterkeyhint="enter" required placeholder="Worum geht es? Wo befindet sich das Objekt?"></textarea>
             <small class="field-error" id="message-error"></small>
           </div>
-          <label class="checkbox">
-            <input type="checkbox" name="privacy" required>
+          <label class="checkbox" for="privacy">
+            <input id="privacy" type="checkbox" name="privacy" required>
             <span>Ich stimme zu, dass meine Angaben zum Erstellen der E-Mail verwendet werden. *</span>
           </label>
-          <small class="field-error" id="privacy-error"></small>
+          <small class="field-error" id="privacy-error" aria-live="polite"></small>
           <button class="button button-light" type="submit">Anfrage per E-Mail vorbereiten <span aria-hidden="true">↗</span></button>
           <p class="form-note">Keine automatische Übertragung: Ihr E-Mail-Programm öffnet sich mit dem vorbereiteten Text.</p>
           <p class="form-status" role="status" aria-live="polite"></p>

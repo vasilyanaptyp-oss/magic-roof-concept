@@ -1,4 +1,2 @@
 User-agent: *
-Allow: /
-
-Sitemap: https://vasilyanaptyp-oss.github.io/magic-roof-concept/sitemap.xml
+Disallow: /

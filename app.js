@@ -82,9 +82,18 @@ document.querySelectorAll(".legal-dialog").forEach((dialog) => {
 const form = document.querySelector("[data-contact-form]");
 const status = form.querySelector(".form-status");
 const fields = ["name", "email", "service", "message"];
+const errorMessages = {
+  name: "Bitte geben Sie Ihren Namen ein.",
+  email: "Bitte geben Sie Ihre E-Mail-Adresse ein.",
+  service: "Bitte wählen Sie eine Leistung aus.",
+  message: "Bitte beschreiben Sie Ihr Vorhaben kurz."
+};
 
 const clearErrors = () => {
-  form.querySelectorAll("[aria-invalid='true']").forEach((field) => field.removeAttribute("aria-invalid"));
+  form.querySelectorAll("[aria-invalid='true']").forEach((field) => {
+    field.removeAttribute("aria-invalid");
+    field.removeAttribute("aria-describedby");
+  });
   form.querySelectorAll(".field-error").forEach((error) => { error.textContent = ""; });
   status.textContent = "";
 };
@@ -107,21 +116,22 @@ form.addEventListener("submit", (event) => {
   fields.forEach((name) => {
     const field = form.elements[name];
     if (!field.value.trim()) {
-      setError(name, "Bitte ausfüllen.");
+      setError(name, errorMessages[name] || "Bitte ausfüllen.");
       firstInvalid ||= field;
     }
   });
 
   const email = form.elements.email;
   if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
-    setError("email", "Bitte eine gültige E-Mail-Adresse eingeben.");
+    setError("email", "Bitte geben Sie eine gültige E-Mail-Adresse ein.");
     firstInvalid ||= email;
   }
 
   const privacy = form.elements.privacy;
   if (!privacy.checked) {
     privacy.setAttribute("aria-invalid", "true");
-    document.getElementById("privacy-error").textContent = "Bitte bestätigen.";
+    privacy.setAttribute("aria-describedby", "privacy-error");
+    document.getElementById("privacy-error").textContent = "Bitte bestätigen Sie die Datenschutzerklärung.";
     firstInvalid ||= privacy;
   }
 
