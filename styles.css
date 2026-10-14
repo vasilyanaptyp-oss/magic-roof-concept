@@ -558,6 +558,8 @@ figure, p, h1, h2, h3, dl, dd { margin: 0; }
 .dialog-inner { position: relative; padding: clamp(28px, 6vw, 68px); }
 .dialog-inner h2 { margin: 22px 0 30px; font-size: clamp(38px, 7vw, 68px); line-height: .96; letter-spacing: -.05em; }
 .dialog-inner p { margin-top: 18px; color: var(--muted); }
+.dialog-inner h3 { margin-top: 28px; font-size: 18px; letter-spacing: -.02em; }
+.dialog-inner h3 + p { margin-top: 8px; }
 .dialog-inner a { text-underline-offset: 3px; }
 .dialog-close { position: absolute; top: 18px; right: 18px; min-height: 44px; border: 0; background: transparent; cursor: pointer; font-size: 12px; font-weight: 700; }
 .dialog-note { padding-top: 18px; border-top: 1px solid var(--line); font-size: 12px; }
